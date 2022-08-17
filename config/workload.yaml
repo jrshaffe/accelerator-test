@@ -1,0 +1,27 @@
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: api-provider-test-01
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: api-provider-test-01
+    app.tanzu.vmware.com/register-api: "true"
+    apps.tanzu.vmware.com/has-tests: "true"
+    apis.apps.tanzu.vmware.com/register-api: "true"
+spec:
+  params:
+  - name: annotations
+    value:
+      autoscaling.knative.dev/minScale: "1"
+  - name: api_descriptor
+    value:
+      type: openapi
+      location:
+        path: "/v3/api-docs"
+      owner: team-petclinic
+      description: "A set of API endpoints to manage the resources within the petclinic app."
+  source:
+    git:
+      url: https://github.com/sample-accelerators/api-provider-test-01
+      ref:
+        branch: main
